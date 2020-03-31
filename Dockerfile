@@ -1,8 +1,8 @@
 FROM digitalsleuth/remnux-docker:latest
 
-LABEL version="1.1"
+LABEL version="1.2"
 LABEL description="SIFT and REMnux Docker based on Ubuntu 18.04 LTS"
-LABEL maintainer="https://github.com/digitalsleuth/remnux-docker"
+LABEL maintainer="https://github.com/digitalsleuth/sift-remnux"
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
