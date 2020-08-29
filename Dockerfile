@@ -1,25 +1,41 @@
-FROM digitalsleuth/remnux-docker:latest
+FROM ubuntu:18.04
 
-LABEL version="1.5"
+LABEL version="2.1"
 LABEL description="SIFT and REMnux Docker based on Ubuntu 18.04 LTS"
 LABEL maintainer="https://github.com/digitalsleuth/sift-remnux"
 
 ENV TERM linux
-ENV DEBIAN_FRONTEND noninteractive
-ENV PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-RUN curl -Lo /usr/local/bin/sift https://github.com/sans-dfir/sift-cli/releases/download/v1.8.5/sift-cli-linux && \
-chmod +x /usr/local/bin/sift && \
-apt-get update && apt-get upgrade -y && \
-pip uninstall rekall -y && rm /usr/local/bin/rek* && rm /usr/local/bin/densityscout && \
-sudo sift install --mode=packages-only --user=remnux && \
-cd /mnt && mkdir aff bde e01 ewf ewf_mount iscsi shadow_mount usb vss windows_mount windows_mount1 windows_mount2 windows_mount3 windows_mount4 windows_mount5 && \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && apt-get install sudo git nano curl wget gnupg -y
+RUN wget -O - https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | apt-key add - && \
+echo deb [arch=amd64] http://repo.saltstack.com/py3/ubuntu/18.04/amd64/3001 bionic main > /etc/apt/sources.list.d/saltstack.list && \
+apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y salt-common salt-minion
+
+RUN curl -Lo /usr/local/bin/remnux https://github.com/remnux/remnux-cli/releases/download/v1.3.0/remnux-cli-linux && \
+chmod +x /usr/local/bin/remnux && \
+curl -Lo /usr/local/bin/sift https://github.com/sans-dfir/sift-cli/releases/download/v1.8.5/sift-cli-linux && \
+chmod +x /usr/local/bin/sift
+
+RUN groupadd -r forensics && \
+useradd -r -g forensics -d /home/forensics -s /bin/bash -c "Forensics User" forensics && \
+mkdir /home/forensics && \
+chown -R forensics:forensics /home/forensics && \
+usermod -a -G sudo forensics && \
+echo 'forensics:forensics' | chpasswd
+
+RUN DEBIAN_FRONTEND=noninteractive sudo remnux install --mode=addon --user=forensics
+RUN sudo sift install --mode=packages-only --pre-release --user=forensics
+RUN cd /mnt && mkdir aff bde e01 ewf ewf_mount iscsi shadow_mount usb vss windows_mount windows_mount1 windows_mount2 windows_mount3 windows_mount4 windows_mount5 && \
 cd shadow_mount && for i in {1..30}; do mkdir vss$i; done && \
-# Add a couple of fixes until the next SIFT release
-git clone https://github.com/keydet89/Tools.git /tmp/keydet && \
-cp /tmp/keydet/source/*.pm /usr/share/perl5/ && \
-mv /usr/share/perl5/pref.pm /usr/share/perl5/Pref.pm && \
-apt-get install -y libcgi-pm-perl libdate-calc-perl libdbi-perl libimage-exiftool-perl libjson-perl libxml-xpath-perl
+echo "UseDNS no" >> /etc/ssh/sshd_config && \
+echo "GSSAPIAuthentication no" >> /etc/ssh/sshd_config && \
+echo "PrintLastLog yes" >> /etc/ssh/sshd_config && \
+echo "TCPKeepAlive yes" >> /etc/ssh/sshd_config && \
+echo "X11DisplayOffset 10" >> /etc/ssh/sshd_config && \
+echo "X11UseLocalhost no" >> /etc/ssh/sshd_config 
 
+WORKDIR /home/forensics
+
+RUN mkdir /var/run/sshd
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
