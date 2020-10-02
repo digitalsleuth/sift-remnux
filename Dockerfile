@@ -11,9 +11,9 @@ RUN wget -O - https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK
 echo deb [arch=amd64] http://repo.saltstack.com/py3/ubuntu/18.04/amd64/3001 bionic main > /etc/apt/sources.list.d/saltstack.list && \
 apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y salt-common salt-minion
 
-RUN curl -Lo /usr/local/bin/remnux https://github.com/remnux/remnux-cli/releases/download/v1.3.0/remnux-cli-linux && \
+RUN curl -Lo /usr/local/bin/remnux https://github.com/remnux/remnux-cli/releases/download/v1.3.1/remnux-cli-linux && \
 chmod +x /usr/local/bin/remnux && \
-curl -Lo /usr/local/bin/sift https://github.com/sans-dfir/sift-cli/releases/download/v1.8.5/sift-cli-linux && \
+curl -Lo /usr/local/bin/sift https://github.com/sans-dfir/sift-cli/releases/download/v1.9.2/sift-cli-linux && \
 chmod +x /usr/local/bin/sift
 
 RUN groupadd -r forensics && \
@@ -24,7 +24,7 @@ usermod -a -G sudo forensics && \
 echo 'forensics:forensics' | chpasswd
 
 RUN DEBIAN_FRONTEND=noninteractive sudo remnux install --mode=addon --user=forensics
-RUN sudo sift install --mode=packages-only --pre-release --user=forensics
+RUN sudo sift install --mode=packages-only --user=forensics
 RUN cd /mnt && mkdir aff bde e01 ewf ewf_mount iscsi shadow_mount usb vss windows_mount windows_mount1 windows_mount2 windows_mount3 windows_mount4 windows_mount5 && \
 cd shadow_mount && for i in {1..30}; do mkdir vss$i; done && \
 echo "UseDNS no" >> /etc/ssh/sshd_config && \
