@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL version="2.2"
+LABEL version="2.3"
 LABEL description="SIFT and REMnux Docker based on Ubuntu 18.04 LTS"
 LABEL maintainer="https://github.com/digitalsleuth/sift-remnux"
 
@@ -24,7 +24,7 @@ usermod -a -G sudo forensics && \
 echo 'forensics:forensics' | chpasswd
 
 RUN DEBIAN_FRONTEND=noninteractive sudo remnux install --mode=cloud --user=forensics
-RUN sudo sift install --mode=packages-only --user=forensics
+RUN sudo sift install --mode=packages-only --user=forensics --pre-release
 RUN cd /mnt && mkdir aff bde e01 ewf ewf_mount iscsi shadow_mount usb vss windows_mount windows_mount1 windows_mount2 windows_mount3 windows_mount4 windows_mount5 && \
 cd shadow_mount && for i in {1..30}; do mkdir vss$i; done
 RUN rm -rf /var/cache/salt/* && \
