@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL version="2.3"
+LABEL version="2.4"
 LABEL description="SIFT and REMnux Docker based on Ubuntu 18.04 LTS"
 LABEL maintainer="https://github.com/digitalsleuth/sift-remnux"
 
@@ -11,7 +11,7 @@ RUN wget -nv -O - https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTS
 echo deb [arch=amd64] http://repo.saltstack.com/py3/ubuntu/18.04/amd64/3001 bionic main > /etc/apt/sources.list.d/saltstack.list && \
 apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y salt-common salt-minion
 
-RUN curl -Lo /usr/local/bin/remnux https://github.com/remnux/remnux-cli/releases/download/v1.3.1/remnux-cli-linux && \
+RUN curl -Lo /usr/local/bin/remnux https://github.com/remnux/remnux-cli/releases/download/v1.3.2/remnux-cli-linux && \
 chmod +x /usr/local/bin/remnux && \
 curl -Lo /usr/local/bin/sift https://github.com/sans-dfir/sift-cli/releases/download/v1.9.2/sift-cli-linux && \
 chmod +x /usr/local/bin/sift
