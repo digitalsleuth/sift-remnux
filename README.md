@@ -1,5 +1,5 @@
 # sift-remnux  ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/digitalsleuth/sift-remnux)
-SIFT and REMnux Docker based on Ubuntu 18.04 LTS
+SIFT and REMnux Docker based on Ubuntu 20.04 LTS
 
 Added a bash script to the repo containing the commands required to get the most of the docker.
 
