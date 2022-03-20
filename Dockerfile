@@ -1,11 +1,11 @@
 FROM ubuntu:20.04
 
-LABEL version="4.0"
+LABEL version="4.1"
 LABEL description="SIFT and REMnux Docker based on Ubuntu 20.04 LTS"
 LABEL maintainer="https://github.com/digitalsleuth/sift-remnux"
 ARG REMNUX_CLI=v1.3.3
 ARG SIFT_CLI=v1.14.0-rc1
-ARG REMNUX_VERSION=v2022.7.1
+ARG REMNUX_VERSION=v2022.9.1
 ARG SIFT_VERSION=v2022.01.22
 
 ENV TERM linux
