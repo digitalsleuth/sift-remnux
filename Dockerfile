@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 LABEL version="5.0"
 LABEL description="SIFT and REMnux Docker based on Ubuntu 22.04 LTS"
@@ -28,9 +28,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     dpkg -i /tmp/cast-v${CAST}-linux-amd64.deb && \
     rm /tmp/cast-v${CAST}-linux-amd64.deb
 
-RUN cast install --mode server --user ${FOR_USER} teamdfir/sift-saltstack  || true
+RUN cast install --mode server --user ${FOR_USER} teamdfir/sift-saltstack
 
-RUN cast install --mode addon --user ${FOR_USER} remnux/salt-states  || true
+RUN cast install --mode cloud --user ${FOR_USER} remnux/salt-states
 
 RUN git clone https://github.com/volatilityfoundation/volatility3.git /opt/volatility3 && \
     cd /opt/volatility3 && \

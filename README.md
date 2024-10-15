@@ -1,11 +1,10 @@
-# **SIFT-REMnux**  ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/digitalsleuth/sift-remnux)
-SIFT and REMnux Docker based on Ubuntu 22.04 LTS
-
-Added a docker-compose.yaml to the repo containing the commands required to get the most of the docker.
+# **SIFT-REMnux**
+SIFT and REMnux Docker based on Ubuntu 20.04 LTS 
+~~22.04 LTS Does have some fails and would require `|| true` to skip failed programs~~
 
 ## **Build Docker**
 
-1. **To build the docker using the dockerfile, run the following commands:**
+**To build the docker using the dockerfile, run the following commands:**
 
 ```bash
 ## Clone the repo
@@ -25,12 +24,12 @@ docker run -d -p 33:22 sift-remnux
 ssh -X forensics@$(hostname -I | awk '{print $1}') -p 33
 
 ```
-2. **You can also interact with the docker using the following command:**
+**You can also interact with the docker using the following command:**
 ```bash
 docker exec -it sift-remnux /bin/bash
 ```
 
-3. **If you need or want access to a mapped folder, you can use the following command:**
+**If you need or want access to a mapped folder, you can use the following command:**
 ```bash
 mkdir {pwd}/files
 
@@ -39,7 +38,7 @@ docker run -d -p 33:22 -v {pwd}/files:/home/forensics sift-remnux
 
 ## **Running in Docker-Compose**
 
-4. **To run the docker in docker-compose, use the following commands:**
+**To run the docker in docker-compose, use the following commands:**
 
 ```bash
 ## Clone the repo
