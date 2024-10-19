@@ -1,6 +1,5 @@
 # **SIFT-REMnux**
 SIFT and REMnux Docker based on Ubuntu 20.04 LTS 
-~~22.04 LTS Does have some fails and would require `|| true` to skip failed programs~~
 
 ## **Build Docker**
 
@@ -16,11 +15,10 @@ cd sift-remnux
 ## Build the docker
 docker build -t sift-remnux .
 
-## Run the docker (Port 33 is your SSH port)
-docker run -d -p 33:22 sift-remnux
+## Run the docker - port 33 will be the port mapped to port 22 inside the docker
+docker run -d -p 33:22 --cap-add SYS_ADMIN --cap-add MKNOD --device=/dev/fuse:/dev/fuse -h sift-remnux sift-remnux
 
 ## SSH into the docker
-#ssh -X forensics@localhost -p 33
 ssh -X forensics@$(hostname -I | awk '{print $1}') -p 33
 
 ```
@@ -47,10 +45,11 @@ git clone https://github.com/digitalsleuth/sift-remnux.git
 ## Change to the directory
 cd sift-remnux
 
+## Customize the docker-compose file
+The docker-compose.yaml file contains everything you need to get started, so editing is not necessary. However, you can customise anything there including hostname, ipv4 address, and volume mappings.
+
 ## Run the docker-compose
 docker-compose up -d
 ```
 
-I reccomend using SSH using the MOBAXTERM or another SSH client that supports X11 forwarding.
-
-This will provide GUI functionality from within the docker.
+Using ssh via MobaXterm or PuTTY (or any SSH client that supports X11 forwarding) is recommend for GUI functionality.
