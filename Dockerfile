@@ -1,12 +1,12 @@
-# REMNUX_VERSION=v2024.41.42.1
-# SIFT_VERSION=v2024.02.29
+# REMNUX_VERSION=v026.29.2
+# SIFT_VERSION=v2026.04.21
 
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
-LABEL version="6.0"
-LABEL description="SIFT and REMnux Docker based on Ubuntu 20.04 LTS"
+LABEL version="7.0"
+LABEL description="SIFT and REMnux Docker based on Ubuntu 24.04 LTS"
 LABEL maintainer="https://github.com/digitalsleuth/sift-remnux"
-ARG CAST=0.14.50
+ARG CAST='1.0.23'
 ARG FOR_USER=forensics
 ARG DESCR="Forensics User"
 ARG PASS="forensics"
@@ -18,9 +18,8 @@ WORKDIR /tmp
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y wget gnupg git openssh-server nano && \
-    groupadd -r -g 1000 ${FOR_USER} && \
-    useradd -r -g ${FOR_USER} -d /home/${FOR_USER} -s /bin/bash -c "${DESCR}" -u 1000 ${FOR_USER} && \
-    mkdir /home/${FOR_USER} && \
+    groupadd -r -g 1001 ${FOR_USER} && \
+    useradd -m -g ${FOR_USER} -d /home/${FOR_USER} -s /bin/bash -c "${DESCR}" -u 1001 ${FOR_USER} && \
     touch /home/${FOR_USER}/.Xauthority && \
     chown -R ${FOR_USER}:${FOR_USER} /home/${FOR_USER} && \
     usermod -a -G sudo ${FOR_USER} && \
